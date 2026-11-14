@@ -1,0 +1,15 @@
+iraca-4
+Copyright (c) 2026 Juan Carlos Isaza
+SPDX-License-Identifier: MIT
+
+Este arnés compila y enlaza, como oráculo de referencia INDEPENDIENTE, la
+implementación de referencia en C de CRYSTALS-Kyber / ML-KEM (FIPS 203) del
+equipo pq-crystals, vendorizada en `vendor/kyber-ref/`:
+
+    pq-crystals/kyber — https://github.com/pq-crystals/kyber
+    Licencia: dominio público (CC0 1.0) — ver vendor/kyber-ref/LICENSE
+    (el repositorio ofrece además Apache-2.0 como alternativa)
+
+El código C se reusa SIN modificar como referencia contra la cual diferenciar; no
+se reimplementa a propósito, porque su valor es ser una implementación
+independiente del mismo estándar. El resto de iraca-4 es Rust propio.

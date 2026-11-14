@@ -1,0 +1,39 @@
+# SPDX-FileCopyrightText: 2026 Juan Carlos Isaza
+# SPDX-License-Identifier: MIT
+[package]
+name = "iraca-4"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.98"
+license = "MIT"
+authors = ["Juan Carlos Isaza"]
+description = "Arnés diferencial de ML-KEM (FIPS 203): el crate ml-kem que usa quipu contra la referencia C de pq-crystals, alimentando los mismos bytes crudos."
+
+[lib]
+name = "iraca4"
+path = "src/lib.rs"
+
+[dependencies]
+# EXACTAMENTE los crates que quipu embarca (path a sus copias vendorizadas), para
+# diferenciar lo que quipu USA, no una copia distinta de crates.io.
+ml-kem = { path = "../quipu/vendor/ml-kem" }
+ml-dsa = { path = "../quipu/vendor/ml-dsa" }
+# 2º oráculo diferencial de ML-KEM-768: libcrux (Cryspen/HACL*), Rust puro y
+# formalmente verificado. Es ORÁCULO, no lo medido, por eso viene de crates.io
+# (no del vendor de quipu). Expone API determinista nativa (randomness explícito).
+libcrux-ml-kem = "0.0.10"
+# 3er oráculo de ML-KEM: AWS-LC (implementación C de PRODUCCIÓN), vía sus bindings
+# crudos. Expone API determinista por EVP_PKEY (keygen desde d‖z, encaps desde m).
+# Es ORÁCULO, no lo medido. Build con cmake+cc (bindings pre-generados, sin libclang).
+aws-lc-sys = "0.45"
+
+[build-dependencies]
+cc = "1"
+
+# Dependencias optimizadas también en debug (estándar de nacimiento).
+[profile.dev.package."*"]
+opt-level = 3
+
+[lints.clippy]
+redundant_clone = "deny"
+needless_collect = "deny"
